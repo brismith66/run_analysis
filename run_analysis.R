@@ -12,13 +12,13 @@ library("dplyr")
 ## need means
 unify_dataset <- function() {
   # Read the test data
-  test.subject <- read.table("test/subject_test.txt")
-  test.x_test <- read.table("test/X_test.txt")
-  test.y_test <- read.table("test/y_test.txt")
+  test.subject <- read.table("UCI HAR Dataset/test/subject_test.txt")
+  test.x_test <- read.table("UCI HAR Dataset/test/X_test.txt")
+  test.y_test <- read.table("UCI HAR Dataset/test/y_test.txt")
   # Read the trial data
-  train.subject <- read.table("train/subject_train.txt")
-  train.x_train <- read.table("train/X_train.txt")
-  train.y_train <- read.table("train/y_train.txt")
+  train.subject <- read.table("UCI HAR Dataset/train/subject_train.txt")
+  train.x_train <- read.table("UCI HAR Dataset/train/X_train.txt")
+  train.y_train <- read.table("UCI HAR Dataset/train/y_train.txt")
   
   # Combine the test and the train data
   all.subject <<- rbind(test.subject, train.subject)
@@ -27,7 +27,7 @@ unify_dataset <- function() {
   colnames(all.subject) <- "subject"
 
   # read the features and apply as column names
-  features <<- read.table("features.txt")  
+  features <<- read.table("UCI HAR Dataset/features.txt")  
   colnames(all.x) <- features[[2]]
   # pull out only those columns whose name contains "mean" or "std"
   colsubsets <- grep("mean", features[[2]])
@@ -48,12 +48,12 @@ run_analysis <- function() {
   all.everything <- unify_dataset()
   
   # replace activity codes in activity with label
-  activity_labels <- read.table("activity_labels.txt")
+  activity_labels <- read.table("UCI HAR Dataset/activity_labels.txt")
   colnames(activity_labels) <- c("activity", "activity_name")
   # merge activity_labels with all.everything 
   all.merge <- merge(all.everything, activity_labels)
   
   ## extract the mean of all the variables
-  write.table(all.merge, "output.txt", row.name=FALSE)
+  write.table(all.merge, file="output.txt", row.name=FALSE)
   return (all.merge)
 }
