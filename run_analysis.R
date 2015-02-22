@@ -51,7 +51,12 @@ run_analysis <- function() {
   activity_labels <- read.table("UCI HAR Dataset/activity_labels.txt")
   colnames(activity_labels) <- c("activity", "activity_name")
   # merge activity_labels with all.everything 
-  all.merge <- merge(all.everything, activity_labels)
+  #all.merge <<- merge(all.everything, activity_labels)
+  all.merge <<- merge(activity_labels, all.everything)
+  
+  ## drop the old activity col and rename activity_labels to activity col
+  all.merge$activity <- NULL
+  rename(all.merge, activity = activity_name)
   
   ## extract the mean of all the variables
   write.table(all.merge, file="output.txt", row.name=FALSE)
