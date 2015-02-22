@@ -1,4 +1,4 @@
-# This directory contains the following files:
+## This directory contains the following files:
 
 README.md -- this file
 
@@ -9,13 +9,13 @@ UCI HAR Dataset -- this directory contains the unzipped contents of the Human Ac
 CODEBOOK.md -- describes the data in the resulting file
 
 
-# Usage 
+## Usage 
 
 run_analysis() runs following steps:
 
+1. Merges the training and test datasets
+2. The file UCI HAR Dataset/features.txt is a list of the columns in the datasets. The names of the columns in the resulting dataset will have these descriptive names. The dataset will include only measurements whose name includes "mean" or "std"
+3. The activity encoded in the field "Activity" is mapped to a field "Activity_Name," whose values come from the file UCI HAR Dataset/activity_labels.
+4. The mean of each column is calculated.
+5. The resulting table is written with name output.txt
 
-Merges the training and the test sets to create one data set.
-Extracts only the measurements on the mean and standard deviation for each measurement. 
-Uses descriptive activity names to name the activities in the data set
-Appropriately labels the data set with descriptive variable names. 
-From the data set in step 4, creates a second, independent tidy data set with the average of each variable for each activity and each subject.
