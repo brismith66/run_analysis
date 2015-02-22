@@ -1,5 +1,6 @@
 library("gtools")
 library("gdata")
+library("reshape2")
 library("dplyr")
 
 ## unify_dataset
@@ -51,14 +52,17 @@ run_analysis <- function() {
   activity_labels <- read.table("UCI HAR Dataset/activity_labels.txt")
   colnames(activity_labels) <- c("activity", "activity_name")
   # merge activity_labels with all.everything 
-  #all.merge <<- merge(all.everything, activity_labels)
   all.merge <<- merge(activity_labels, all.everything)
   
   ## drop the old activity col and rename activity_labels to activity col
   all.merge$activity <- NULL
-  rename(all.merge, activity = activity_name)
+  dplyr::rename(all.merge, activity = activity_name)
   
-  ## extract the mean of all the variables
-  write.table(all.merge, file="output.txt", row.name=FALSE)
-  return (all.merge)
+  all.data.melt <- melt(all.merge, id=c("activity_name", "subject"))
+  
+  all.data.ddply <- ddply(all.data.melt, .(subject, activity_name, variable), summarize, mean=mean(value))
+  
+  write.table(all.data.ddply, file="output.txt", row.name=FALSE)
+
+  return (all.data.ddply)
 }
